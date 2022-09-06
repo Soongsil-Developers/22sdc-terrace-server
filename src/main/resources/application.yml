@@ -1,0 +1,34 @@
+spring:
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+
+info:
+  application:
+    author: Sangwoo Ra(robbyra@gmail.com)
+    version: 0.1.0
+    description: Template repository for building Spring Boot(MVC) Applications using Kotlin
+    more_info: https://github.com/sang-w0o/spring-boot-mvc-kotlin-template
+
+jwt:
+  secret: ${JWT_SECRET}
+  accessTokenExp: 86400000
+  refreshTokenExp: 604800000
