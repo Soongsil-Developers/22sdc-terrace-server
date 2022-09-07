@@ -77,13 +77,13 @@ class JwtTokenUtil(
         return UsernamePasswordAuthenticationToken(user.toUserDto(), "", mutableListOf())
     }
 
-    fun generateAccessToken(userId: Int): String {
+    fun generateAccessToken(userId: String): String {
         val claims: MutableMap<String, Any> = mutableMapOf()
         claims["userId"] = userId
         return createToken(claims, jwtProperties.accessTokenExp)
     }
 
-    fun generateRefreshToken(userId: Int): String {
+    fun generateRefreshToken(userId: String): String {
         val claims: MutableMap<String, Any> = mutableMapOf()
         claims["userId"] = userId
         return createToken(claims, jwtProperties.refreshTokenExp)

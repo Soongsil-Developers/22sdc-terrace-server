@@ -9,5 +9,4 @@ class UserServiceImpl(
     val userRepository: UserRepository
 ) : UserService{
 
-    }
 }
