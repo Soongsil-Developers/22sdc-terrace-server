@@ -16,7 +16,7 @@ class FindUser : Supplier<User> {
     private lateinit var userRepository: UserRepository
 
     override fun get(): User {
-        val userId = Integer.parseInt((SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl).username)
+        val userId = (SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl).username
         return userRepository.findById(userId).orElseThrow { UserUnAuthorizedException() }
     }
 }
