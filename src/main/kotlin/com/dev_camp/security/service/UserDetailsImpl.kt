@@ -7,6 +7,7 @@ class UserDetailsImpl(
     private val id: String
 ) : UserDetails {
 
+
     override fun isEnabled(): Boolean {
         return true
     }

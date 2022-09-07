@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class JWTUserDetailsService(private val authorizeUser: AuthorizeUser) : UserDetailsService {
     override fun loadUserByUsername(username: String?): UserDetails {
-        val user = authorizeUser.apply(Integer.parseInt(username!!))
+        val user = authorizeUser.apply(username!!)
         return UserDetailsImpl(user.id!!)
     }
 
