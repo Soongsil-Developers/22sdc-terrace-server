@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 class UserServiceImpl(
     val userRepository: UserRepository
 ) : UserService{
-    override fun isUserHere(): User {
-        return userRepository.findById("ASDF").orElseThrow { RuntimeException("A") }
+
     }
 }
