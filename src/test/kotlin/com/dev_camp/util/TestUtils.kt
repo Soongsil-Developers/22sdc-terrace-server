@@ -13,6 +13,7 @@ const val JWT_SECRET = "TestJwtSecretKey"
 const val JWT_ACCESS_TOKEN_EXP = 86400000
 const val JWT_REFRESH_TOKEN_EXP = 604800000
 const val EXTRA_TIME = 2000000
+const val STUDENT_ID="20180202"
 
 fun generateExpiredToken(exp: Int, secret: String): String {
     val realExp = EXTRA_TIME + exp

@@ -20,9 +20,9 @@ class LoginTest : ApiIntegrationTest() {
         const val WRONG_PASSWORD = "wrongPassword"
     }
 
-    private fun getLoginRequestDto(email: String, password: String): LoginRequestDto {
+    private fun getLoginRequestDto(Id: String, password: String): LoginRequestDto {
         val requestDto = LoginRequestDto()
-        requestDto.email = email
+        requestDto.studentId = Id
         requestDto.password = password
         return requestDto
     }

@@ -8,6 +8,7 @@ import com.dev_camp.user.domain.UserRepository
 import com.dev_camp.util.EMAIL
 import com.dev_camp.util.NAME
 import com.dev_camp.util.PASSWORD
+import com.dev_camp.util.STUDENT_ID
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,9 +42,9 @@ abstract class ApiIntegrationTest {
     @BeforeEach
     fun setUp() {
         val user = User(
-            email = EMAIL,
+            id= STUDENT_ID,
             name = NAME,
-            password = encoder.encode(PASSWORD)
+
         )
         userRepository.save(user)
     }
@@ -53,9 +54,9 @@ abstract class ApiIntegrationTest {
         userRepository.deleteAll()
     }
 
-    protected fun getUserId(): Int {
-        val user = userRepository.findByEmail(EMAIL).orElseThrow { UserIdNotFoundException() }
-        return user.id ?: -1
+    protected fun getUserId(): String {
+        val user = userRepository.findById(STUDENT_ID).orElseThrow { UserIdNotFoundException() }
+        return user.id ?: ""
     }
 
     protected fun assertErrorResponse(dsl: MockMvcResultMatchersDsl, message: String) {

@@ -59,7 +59,8 @@ class AccessTokenUpdateTest : ApiIntegrationTest() {
     @DisplayName("실패 - 잘못된 userId")
     @Test
     fun updateToken_responseIsUnAuthorizedIfUserIdIsInvalid() {
-        val requestDto = AccessTokenUpdateRequestDto(jwtTokenUtil.generateRefreshToken(-1))
+        //일단 8자리가 아닌 ID로 테스트
+        val requestDto = AccessTokenUpdateRequestDto(jwtTokenUtil.generateRefreshToken("1111"))
         apiCall(requestDto).andExpect {
             status { isUnauthorized() }
             assertErrorResponse(this, "Unauthorized User Id.")
@@ -77,7 +78,7 @@ class AccessTokenUpdateTest : ApiIntegrationTest() {
         }
     }
 
-    private fun generateExpiredRefreshToken(userId: Int): String {
+    private fun generateExpiredRefreshToken(userId: String): String {
         val claims: MutableMap<String, Any> = mutableMapOf()
         claims["userId"] = userId
         return Jwts.builder()
