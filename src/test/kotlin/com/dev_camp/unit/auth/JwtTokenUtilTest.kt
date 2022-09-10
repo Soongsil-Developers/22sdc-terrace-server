@@ -97,8 +97,6 @@ class JwtTokenUtilTest : BaseUnitTest() {
         authentication.principal.shouldBeInstanceOf<UserDto>()
         val userDto = authentication.principal as UserDto
         userDto.name shouldBe user.name
-        userDto.email shouldBe user.email
-        userDto.password shouldBe user.password
         userDto.id shouldBe user.id
     }
 

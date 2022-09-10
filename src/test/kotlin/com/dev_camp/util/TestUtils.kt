@@ -4,15 +4,15 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import java.util.*
 
-const val EMAIL = "test@test.com"
 const val NAME = "testUserName"
 const val PASSWORD = "testPassword"
-const val USER_ID = 1
+const val USER_ID = "20181111"
 const val TOKEN = "token"
 const val JWT_SECRET = "TestJwtSecretKey"
 const val JWT_ACCESS_TOKEN_EXP = 86400000
 const val JWT_REFRESH_TOKEN_EXP = 604800000
 const val EXTRA_TIME = 2000000
+const val STUDENT_ID="20180202"
 
 fun generateExpiredToken(exp: Int, secret: String): String {
     val realExp = EXTRA_TIME + exp

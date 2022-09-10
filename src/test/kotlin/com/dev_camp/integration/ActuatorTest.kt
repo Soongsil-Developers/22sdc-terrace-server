@@ -7,7 +7,9 @@ import java.net.URI
 
 class ActuatorTest : ApiIntegrationTest() {
 
-    @DisplayName("Actuator - Health Check")
+    //api구현 후 테스트해야함.
+
+/*    @DisplayName("Actuator - Health Check")
     @Test
     fun healthCheckApiIsOpen() {
         val test = mockMvc.get(URI.create("/actuator/health"))
@@ -28,5 +30,5 @@ class ActuatorTest : ApiIntegrationTest() {
             jsonPath("application.description") { exists() }
             jsonPath("application.more_info") { exists() }
         }
-    }
+    }*/
 }

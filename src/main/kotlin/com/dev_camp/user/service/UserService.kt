@@ -4,5 +4,5 @@ import com.dev_camp.user.domain.User
 
 
 interface UserService {
-    fun isUserHere() : User
+
 }

@@ -10,6 +10,5 @@ import org.springframework.web.bind.annotation.RestController
 class UserApiController(
     private val userService: UserService
 ) {
-    @GetMapping
-    fun isUserHere() = userService.isUserHere()
+
 }

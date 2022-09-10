@@ -1,7 +1,6 @@
 package com.dev_camp.integration.user
 
 import com.dev_camp.integration.ApiIntegrationTest
-import com.dev_camp.util.EMAIL
 import com.dev_camp.util.NAME
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -24,7 +23,6 @@ class UserGetInfoTest : ApiIntegrationTest() {
         val accessToken = jwtTokenUtil.generateAccessToken(userId)
         apiCall(accessToken).andExpect {
             status { isOk() }
-            jsonPath("email") { value(EMAIL) }
             jsonPath("id") { value(userId) }
             jsonPath("name") { value(NAME) }
         }.andReturn()
@@ -33,7 +31,7 @@ class UserGetInfoTest : ApiIntegrationTest() {
     @DisplayName("Fail - Invalid userId")
     @Test
     fun failWithInvalidUserId() {
-        val accessToken = jwtTokenUtil.generateAccessToken(-1)
+        val accessToken = jwtTokenUtil.generateAccessToken("-1")
         apiCall(accessToken).andExpect {
             status { isUnauthorized() }
             assertErrorResponse(this, "Invalid userId.")

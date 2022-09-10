@@ -31,8 +31,9 @@ class AuthService(
 
     @Transactional(readOnly = true)
     fun login(requestDto: LoginRequestDto): LoginResponseDto {
-        val user = userRepository.findByEmail(requestDto.email).orElseThrow { LoginException() }
-        if (!encoder.matches(requestDto.password, user.password)) throw LoginException()
+        val user = userRepository.findById(requestDto.studentId).orElseThrow { LoginException() }
+        //if (!encoder.matches(requestDto.password, user.password)) throw LoginException()
+        //추후 login request를 유세인트로 날려서 확인할 것으로 예상
         return LoginResponseDto(
             accessToken = jwtTokenUtil.generateAccessToken(user.id!!),
             refreshToken = jwtTokenUtil.generateAccessToken(user.id!!),

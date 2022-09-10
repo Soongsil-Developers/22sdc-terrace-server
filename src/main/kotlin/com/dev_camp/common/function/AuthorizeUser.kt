@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component
 import java.util.function.Function
 
 @Component
-class AuthorizeUser : Function<Int, User> {
+class AuthorizeUser : Function<String, User> {
 
     @Autowired
     private lateinit var userRepository: UserRepository
 
-    override fun apply(userId: Int): User {
+    override fun apply(userId: String): User {
         return userRepository.findById(userId).orElseThrow { UsernameNotFoundException("잘못된 userId 값입니다.") }
     }
 }

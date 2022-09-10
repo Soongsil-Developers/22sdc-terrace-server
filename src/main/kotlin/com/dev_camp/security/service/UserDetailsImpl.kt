@@ -4,8 +4,9 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class UserDetailsImpl(
-    private val id: Int
+    private val id: String
 ) : UserDetails {
+
 
     override fun isEnabled(): Boolean {
         return true
@@ -16,7 +17,7 @@ class UserDetailsImpl(
     }
 
     override fun getUsername(): String {
-        return id.toString()
+        return id
     }
 
     override fun isAccountNonExpired(): Boolean {

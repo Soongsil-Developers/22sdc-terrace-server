@@ -31,7 +31,7 @@ abstract class BaseUnitTest {
     }
 
     protected fun getMockUser(): User {
-        val savedUser = User(NAME, EMAIL, PASSWORD)
+        val savedUser = User(id= USER_ID,name= NAME)
         savedUser.id = USER_ID
         return savedUser
     }
