@@ -5,9 +5,7 @@ import com.dev_camp.auth.exception.UserIdNotFoundException
 import com.dev_camp.auth.tools.JwtTokenUtil
 import com.dev_camp.user.domain.User
 import com.dev_camp.user.domain.UserRepository
-import com.dev_camp.util.EMAIL
 import com.dev_camp.util.NAME
-import com.dev_camp.util.PASSWORD
 import com.dev_camp.util.STUDENT_ID
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
