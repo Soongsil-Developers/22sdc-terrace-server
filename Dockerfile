@@ -1,5 +1,6 @@
 FROM openjdk:8-jdk-alpine AS builder
 WORKDIR application
+RUN apt install -y chromedriver
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle.kts .

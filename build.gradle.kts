@@ -44,6 +44,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.seleniumhq.selenium:selenium-java:4.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(kotlin("test-junit"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
