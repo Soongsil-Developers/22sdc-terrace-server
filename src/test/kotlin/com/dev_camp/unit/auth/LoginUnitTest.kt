@@ -7,7 +7,6 @@ import com.dev_camp.auth.exception.LoginException
 import com.dev_camp.auth.service.AuthService
 import com.dev_camp.auth.tools.JwtTokenUtil
 import com.dev_camp.unit.BaseUnitTest
-import com.dev_camp.user.domain.User
 import com.dev_camp.util.*
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -15,12 +14,14 @@ import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.WebDriver
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.Optional
 
 class LoginUnitTest : BaseUnitTest() {
 
     private lateinit var authService: AuthService
+    private lateinit var driver: WebDriver
 
     @MockkBean
     private lateinit var encoder: BCryptPasswordEncoder
@@ -30,7 +31,7 @@ class LoginUnitTest : BaseUnitTest() {
 
     @BeforeEach
     fun setUp() {
-        authService = AuthService(jwtTokenUtil, userRepository, encoder)
+        authService = AuthService(jwtTokenUtil, userRepository, encoder,driver)
     }
 
     @DisplayName("로그인 성공")
