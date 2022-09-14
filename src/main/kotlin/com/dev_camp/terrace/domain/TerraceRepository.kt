@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TerraceRepository : JpaRepository<Terrace, Int> {
+    override fun findAll(): List<Terrace>
 }
