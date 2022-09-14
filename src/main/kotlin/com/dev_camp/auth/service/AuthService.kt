@@ -34,22 +34,27 @@ class AuthService(
         } else throw AuthenticateException("RefreshToken has been expired.")
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     fun login(requestDto: LoginRequestDto): LoginResponseDto {
-        //val user = userRepository.findById(requestDto.studentId).orElseThrow { LoginException() }
-        //if (!encoder.matches(requestDto.password, user.password)) throw LoginException()
-        //추후 login request를 유세인트로 날려서 확인할 것으로 예상
-
         driver.get("https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fsaint.ssu.ac.kr%2FwebSSO%2Fsso.jsp")
-        // Search for username / password input and fill the inputs
-        driver.findElement(By.id("userid")).sendKeys(requestDto.studentId)
-        driver.findElement(By.id("pwd")).sendKeys(requestDto.password)
-        // Locate the login button and click on it
-        driver.findElement(By.className("btn_login")).click()
 
-        if(driver.getCurrentUrl().equals("https://saint.ssu.ac.kr/irj/portal")){
-            val user= User(id=requestDto.studentId,name="testing")
+        // input id/password in u-saint login page
+        driver.findElement(By.id("userid")).clear()
+        driver.findElement(By.id("userid")).sendKeys(requestDto.studentId)
+
+        driver.findElement(By.id("pwd")).clear()
+        driver.findElement(By.id("pwd")).sendKeys(requestDto.password)
+        driver.findElement(By.id("pwd")).submit()
+        Thread.sleep(300)
+
+        System.out.print(driver.currentUrl)
+
+        if(driver.currentUrl.contains("https://saint.ssu.ac.kr/irj/portal")){
+            val user= User(id=requestDto.studentId,name="testName")
+            //로그아웃 버튼 click
+            driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/header/div[1]/div/div/button[2]")).click()
             userRepository.save(user)
+            driver.quit()
 
             return LoginResponseDto(
                 accessToken = jwtTokenUtil.generateAccessToken(user.id!!),
@@ -57,7 +62,10 @@ class AuthService(
             )
 
         }
-        else throw LoginException()
+        else {
+            driver.quit()
+            throw LoginException()
+        }
 
     }
 }
