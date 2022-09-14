@@ -9,5 +9,7 @@ data class ReservationDto(
     val terraceId: Int,
     val userId: String
 ) {
-
+    fun toEntity(user: User, terrace: Terrace) : Reservation {
+        return Reservation(id, terrace, user)
+    }
 }

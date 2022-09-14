@@ -16,7 +16,7 @@ class ReservationApiController (
 ) {
     @PostMapping
     fun create(@RequestBody requestDto: ReservationDto) : ResponseEntity<ReservationDto> {
-        reservationService.create(requestDto)
+        reservationService.createReservation(requestDto)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 }

@@ -10,7 +10,4 @@ import java.time.LocalDateTime
 @Repository
 interface ReservationRepository : JpaRepository<Reservation, Int> {
     fun findAllByOrderByCreatedAtDesc(): List<Reservation>
-
-    @Query(nativeQuery = true, value = "insert into reservation (terrace_id, user_id, created_at) value (:terraceId, :userId, :createdAt)")
-    fun save(terraceId: Int, userId: String, createdAt: LocalDateTime): Reservation
 }
