@@ -1,5 +1,7 @@
 package com.dev_camp.reservation.service
 
+import com.dev_camp.auth.exception.InvalidAccessException
+import com.dev_camp.auth.exception.UserIdNotFoundException
 import com.dev_camp.common.exception.ApiException
 import com.dev_camp.common.exception.NotFoundException
 import com.dev_camp.reservation.domain.Reservation
@@ -21,14 +23,18 @@ class ReservationServiceImpl (
     private val terraceRepository: TerraceRepository
 ) : ReservationService{
     override fun createReservation(reservationDto: ReservationDto) : Reservation {
-        val terrace: Terrace = terraceRepository.getById(reservationDto.terraceId)
-        val user: User = userRepository.getById(reservationDto.userId)
+        try {
+            val terrace: Terrace = terraceRepository.getById(reservationDto.terraceId)
+            val user: User = userRepository.getById(reservationDto.userId)
 
-        return when (terrace.status) {
-            TerraceStatus.AVAILABLE -> return reservationRepository.save(reservationDto.toEntity(user, terrace))
-            TerraceStatus.BOOK -> throw ApiException()
-            TerraceStatus.CLOSED -> throw ApiException()
-            TerraceStatus.USING -> throw ApiException()
+            return when (terrace.status) {
+                TerraceStatus.AVAILABLE -> return reservationRepository.save(reservationDto.toEntity(user, terrace))
+                TerraceStatus.BOOK -> throw InvalidAccessException("reserved terrace")
+                TerraceStatus.CLOSED -> throw InvalidAccessException("not available terrace")
+                TerraceStatus.USING -> throw InvalidAccessException("using terrace")
+            }
+        } catch(e: EntityNotFoundException) {
+            throw UserIdNotFoundException()
         }
     }
 }

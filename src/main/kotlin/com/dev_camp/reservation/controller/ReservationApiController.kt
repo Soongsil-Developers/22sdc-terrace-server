@@ -18,11 +18,7 @@ class ReservationApiController (
 ) {
     @PostMapping
     fun create(@RequestBody requestDto: ReservationDto) : ResponseEntity<ReservationDto> {
-        try {
-            reservationService.createReservation(requestDto)
-        } catch(e: EntityNotFoundException) {
-            throw UserIdNotFoundException()
-        }
+        reservationService.createReservation(requestDto)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 }

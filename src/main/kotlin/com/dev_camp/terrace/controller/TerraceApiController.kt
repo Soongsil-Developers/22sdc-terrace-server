@@ -1,6 +1,5 @@
 package com.dev_camp.terrace.controller
 
-import com.dev_camp.reservation.service.ReservationService
 import com.dev_camp.terrace.dto.TerraceDto
 import com.dev_camp.terrace.service.TerraceService
 import org.springframework.http.HttpStatus
