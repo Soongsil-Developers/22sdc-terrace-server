@@ -5,21 +5,19 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.ScopedProxyMode
-import org.springframework.web.context.annotation.RequestScope
 import java.util.logging.Level
 
 @Configuration
 class WebDriverConfig {
     @Bean
-    @RequestScope(proxyMode = ScopedProxyMode.TARGET_CLASS)
     fun webDriver(): WebDriver {
-        val chromeDriverPath = "C:/Users/Public"
-        System.setProperty("webdriver.chrome.driver", chromeDriverPath)
+        val chromeDriverPath = "C:\\terrace_pj\\chromedriver.exe"
+        System.setProperty("webdriver.chrome.driver",chromeDriverPath)
         val options = ChromeOptions()
-            .addArguments("--headless")
+            .addArguments("disable-gpu","--window-size=1920,1200")
             .setHeadless(true)
         val driver = ChromeDriver(options)
+        System.out.print("webdriver run!!!!!!!!!!!!!!!!!!!!!") //싱글톤 확인 위함
         driver.setLogLevel(Level.WARNING)
         return driver
     }
