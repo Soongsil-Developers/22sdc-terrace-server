@@ -6,5 +6,4 @@ data class TerraceDto (
     val terrace_id: Int,
     val floor: Int,
     val status: TerraceStatus
-){
-}
+)
