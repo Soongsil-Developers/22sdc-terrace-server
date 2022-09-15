@@ -9,7 +9,9 @@ import com.dev_camp.terrace.domain.domain.Terrace
 import com.dev_camp.user.domain.UserRepository
 import com.dev_camp.terrace.domain.domain.TerraceRepository
 import com.dev_camp.terrace.domain.domain.TerraceStatus
+import com.dev_camp.terrace.domain.exception.TerraceClosedException
 import com.dev_camp.terrace.domain.exception.TerraceIdNotFoundException
+import com.dev_camp.terrace.domain.exception.TerraceUsingException
 import com.dev_camp.user.domain.User
 import javax.persistence.EntityNotFoundException
 
@@ -41,7 +43,8 @@ class CheckInServiceImpl(
                  */
                 return checkInRepository.save(checkInDto.toEntity(user, terrace))
             }
-            else throw InvalidAccessException()
+            else if(terrace.status==TerraceStatus.CLOSED) throw TerraceClosedException()
+            else throw TerraceUsingException()
         }
         //전달 받은 terraceid나 userid가 db없을경우
         catch(e: EntityNotFoundException){
