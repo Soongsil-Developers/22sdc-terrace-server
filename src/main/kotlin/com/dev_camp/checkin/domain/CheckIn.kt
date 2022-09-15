@@ -1,4 +1,4 @@
-package com.dev_camp.checkin
+package com.dev_camp.checkin.domain
 
 import com.dev_camp.domain.common.CreatedAtEntity
 import com.dev_camp.terrace.domain.Terrace
