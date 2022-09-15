@@ -16,7 +16,7 @@ import java.net.URI
 class LoginTest : ApiIntegrationTest() {
 
     companion object {
-        const val WRONG_EMAIL = "wrong@wrong.com"
+        const val WRONG_ID = "1111111111"
         const val WRONG_PASSWORD = "wrongPassword"
     }
 
@@ -54,13 +54,13 @@ class LoginTest : ApiIntegrationTest() {
     }
 
     @Test
-    @DisplayName("로그인 실패 - 없는 이메일")
+    @DisplayName("로그인 실패 - 없는 학번")
     fun login_responseIsNotFoundIfEmailIsWrong() {
-        val requestDto = getLoginRequestDto(WRONG_EMAIL, PASSWORD)
+        val requestDto = getLoginRequestDto(WRONG_ID, PASSWORD)
 
         apiCall(requestDto).andExpect {
             status { isNotFound() }
-            assertErrorResponse(this, "이메일 또는 비밀번호가 잘못되었습니다.")
+            assertErrorResponse(this, "학번 또는 비밀번호가 잘못되었습니다.")
         }
     }
 
@@ -68,9 +68,10 @@ class LoginTest : ApiIntegrationTest() {
     @DisplayName("로그인 실패 - 비밀번호 오류")
     fun login_responseIsNotFoundIfPasswordIsWrong() {
         val requestDto = getLoginRequestDto(USER_ID, WRONG_PASSWORD)
+
         apiCall(requestDto).andExpect {
             status { isNotFound() }
-            assertErrorResponse(this, "이메일 또는 비밀번호가 잘못되었습니다.")
+            assertErrorResponse(this, "학번 또는 비밀번호가 잘못되었습니다.")
         }
     }
 }
