@@ -1,7 +1,7 @@
 package com.dev_camp.checkin.domain
 
 import com.dev_camp.domain.common.CreatedAtEntity
-import com.dev_camp.terrace.domain.Terrace
+import com.dev_camp.terrace.domain.domain.Terrace
 import com.dev_camp.user.domain.User
 import java.time.LocalDateTime
 import javax.persistence.*

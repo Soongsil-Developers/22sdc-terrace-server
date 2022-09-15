@@ -1,5 +1,6 @@
-package com.dev_camp.terrace.domain
+package com.dev_camp.terrace.domain.domain
 
+import com.dev_camp.terrace.dto.TerraceDto
 import javax.persistence.*
 
 @Entity
@@ -15,4 +16,8 @@ class Terrace(
     @field:Column(nullable = false, name = "status")
     @field:Enumerated(value = EnumType.STRING)
     val status: TerraceStatus = TerraceStatus.AVAILABLE
-)
+){
+    fun toDto(): TerraceDto {
+        return TerraceDto(id, floor, status)
+    }
+}

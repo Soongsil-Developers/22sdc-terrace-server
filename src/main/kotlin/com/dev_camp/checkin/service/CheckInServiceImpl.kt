@@ -5,11 +5,10 @@ import com.dev_camp.auth.exception.UserIdNotFoundException
 import com.dev_camp.checkin.domain.CheckIn
 import com.dev_camp.checkin.domain.CheckInRepository
 import com.dev_camp.checkin.dto.CheckInDto
-import com.dev_camp.common.exception.NotFoundException
-import com.dev_camp.terrace.domain.Terrace
+import com.dev_camp.terrace.domain.domain.Terrace
 import com.dev_camp.user.domain.UserRepository
-import com.dev_camp.terrace.domain.TerraceRepository
-import com.dev_camp.terrace.domain.TerraceStatus
+import com.dev_camp.terrace.domain.domain.TerraceRepository
+import com.dev_camp.terrace.domain.domain.TerraceStatus
 import com.dev_camp.terrace.domain.exception.TerraceIdNotFoundException
 import com.dev_camp.user.domain.User
 import javax.persistence.EntityNotFoundException
@@ -26,16 +25,23 @@ class CheckInServiceImpl(
             flag=true
             val user: User = userRepository.getById(checkInDto.userId)
 
-            when (terrace.status) { //terraceStatus에 따른 예외처리
-                TerraceStatus.AVAILABLE
-                    ->return checkInRepository.save(checkInDto.toEntity(user, terrace))
-                TerraceStatus.BOOK
-                    ->throw InvalidAccessException()
-                TerraceStatus.CLOSED
-                    ->throw InvalidAccessException()
-                TerraceStatus.USING
-                    ->throw InvalidAccessException()
+            //terraceStatus에 따른 예외처리
+            if (terrace.status== TerraceStatus.AVAILABLE) {
+                /*
+                terraceStatus Using 으로 변경
+                 */
+                return checkInRepository.save(checkInDto.toEntity(user, terrace))
             }
+            else if(terrace.status== TerraceStatus.BOOK){
+                /*
+                terraceid를 가진 reservation 레코드의 userid와 비교
+                    exception
+                    or
+                    terraceStatus Using 으로 변경
+                 */
+                return checkInRepository.save(checkInDto.toEntity(user, terrace))
+            }
+            else throw InvalidAccessException()
         }
         //전달 받은 terraceid나 userid가 db없을경우
         catch(e: EntityNotFoundException){
