@@ -20,10 +20,12 @@ import org.openqa.selenium.WebDriver
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import java.util.*
-
 
 class LoginUnitTest : BaseUnitTest() {
+
+    companion object {
+        private const val WRONG_PASSWORD = "wrongpassword"
+    }
 
     var ctx: ApplicationContext = AnnotationConfigApplicationContext(WebDriverConfig::class.java)
     private var driver: WebDriver= ctx.getBean("webDriver",WebDriver::class.java)
@@ -38,7 +40,7 @@ class LoginUnitTest : BaseUnitTest() {
 
     @BeforeEach
     fun setUp() {
-        authService = AuthService(jwtTokenUtil, userRepository, encoder,driver)
+        authService = AuthService(jwtTokenUtil, userRepository, encoder, driver)
     }
 
     @DisplayName("로그인 성공")
@@ -56,18 +58,18 @@ class LoginUnitTest : BaseUnitTest() {
     @DisplayName("로그인 실패 - 비밀번호 불일치")
     @Test
     fun login_FailIfWrongPassword() {
-/*        every { encoder.matches(any(), any()) } returns false
-        every { userRepository.findById(any()) } returns Optional.of(getMockUser())
-        val requestDto = LoginRequestDto(USER_ID, PASSWORD)
+        every { encoder.matches(any(), any()) } returns false
+        every { userRepository.save(any()) } returns getMockUser()
+        val requestDto = LoginRequestDto(studentId = USER_ID, password = WRONG_PASSWORD)
         val exception = shouldThrow<LoginException> { authService.login(requestDto) }
-        exception.message shouldBe "학번 또는 비밀번호가 잘못되었습니다."*/
-        //유세인트에 login요청하는 기능 완성후 테스트 가능
+        exception.message shouldBe "학번 또는 비밀번호가 잘못되었습니다."
     }
 
     @DisplayName("로그인 실패 - 존재하지 않는 학번")
     @Test
     fun login_FailIfWrongEmail() {
-
+        every { encoder.matches(any(), any()) } returns false
+        every { userRepository.save(any()) } returns getMockUser()
         val requestDto = LoginRequestDto(studentId = "wrongid", password = PASSWORD)
         val exception = shouldThrow<LoginException> { authService.login(requestDto) }
         exception.message shouldBe "학번 또는 비밀번호가 잘못되었습니다."
