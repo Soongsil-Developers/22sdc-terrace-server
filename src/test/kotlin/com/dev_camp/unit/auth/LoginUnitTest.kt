@@ -49,7 +49,7 @@ class LoginUnitTest : BaseUnitTest() {
         val user = User(id= USER_ID,name= NAME)
         every { encoder.matches(any(), any()) } returns true
         every { userRepository.save(any()) } returns getMockUser()
-        val requestDto = LoginRequestDto(studentId = USER_ID, password =  PASSWORD)
+        val requestDto = LoginRequestDto(studentId = USER_ID, password = PASSWORD)
         val responseDto = authService.login(requestDto)
         jwtTokenUtil.isTokenExpired(responseDto.accessToken) shouldBe false
         jwtTokenUtil.isTokenExpired(responseDto.refreshToken) shouldBe false
