@@ -6,7 +6,6 @@ import com.dev_camp.auth.service.AuthService
 import com.dev_camp.auth.tools.JwtTokenUtil
 import com.dev_camp.config.WebDriverConfig
 import com.dev_camp.unit.BaseUnitTest
-import com.dev_camp.user.domain.User
 import com.dev_camp.util.*
 import com.ninjasquad.springmockk.MockkBean
 import com.ninjasquad.springmockk.SpykBean
@@ -17,18 +16,14 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
-import org.springframework.context.ApplicationContext
-import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-
 class LoginUnitTest : BaseUnitTest() {
 
     companion object {
         private const val WRONG_PASSWORD = "wrongpassword"
     }
 
-    var ctx: ApplicationContext = AnnotationConfigApplicationContext(WebDriverConfig::class.java)
-    private var driver: WebDriver= ctx.getBean("webDriver",WebDriver::class.java)
+    private lateinit var driver: WebDriver
 
     private lateinit var authService: AuthService
 
@@ -40,13 +35,13 @@ class LoginUnitTest : BaseUnitTest() {
 
     @BeforeEach
     fun setUp() {
+        driver= WebDriverConfig().webDriver()
         authService = AuthService(jwtTokenUtil, userRepository, encoder, driver)
     }
 
     @DisplayName("로그인 성공")
     @Test
     fun login_Success() {
-        val user = User(id= USER_ID,name= NAME)
         every { encoder.matches(any(), any()) } returns true
         every { userRepository.save(any()) } returns getMockUser()
         val requestDto = LoginRequestDto(studentId = USER_ID, password = PASSWORD)
