@@ -23,8 +23,6 @@ class AuthService(
     private val encoder: BCryptPasswordEncoder,
     private val driver: WebDriver
 ) {
-
-
     @Transactional(readOnly = true)
     fun updateAccessToken(dto: AccessTokenUpdateRequestDto): AccessTokenUpdateResponseDto {
         if (!jwtTokenUtil.isTokenExpired(dto.refreshToken)) {
@@ -34,7 +32,6 @@ class AuthService(
             } else throw AuthenticateException("Unauthorized User Id.")
         } else throw AuthenticateException("RefreshToken has been expired.")
     }
-
     @Transactional
     fun login(requestDto: LoginRequestDto): LoginResponseDto {
         driver.get("https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fsaint.ssu.ac.kr%2FwebSSO%2Fsso.jsp")
@@ -49,29 +46,23 @@ class AuthService(
             driver.findElement(By.id("pwd")).submit()
             Thread.sleep(500)
             System.out.print(driver.currentUrl)
+
+            if (driver.currentUrl.contains("https://saint.ssu.ac.kr/irj/portal")) {
+                val user = User(id = requestDto.studentId, name = "testName")
+                //로그아웃 버튼 click
+                driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/header/div[1]/div/div/button[2]")).click()
+                userRepository.save(user)
+                driver.quit()
+
+                return LoginResponseDto(
+                    accessToken = jwtTokenUtil.generateAccessToken(user.id!!),
+                    refreshToken = jwtTokenUtil.generateAccessToken(user.id!!),
+                )
+            } else throw UnhandledAlertException("login failed")
+
         } catch (e: UnhandledAlertException) {
             driver.quit()
             throw LoginException()
         }
-
-
-
-        if(driver.currentUrl.contains("https://saint.ssu.ac.kr/irj/portal")){
-            val user = User(id=requestDto.studentId,name="testName")
-            //로그아웃 버튼 click
-            driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/header/div[1]/div/div/button[2]")).click()
-            userRepository.save(user)
-            driver.quit()
-
-            return LoginResponseDto(
-                accessToken = jwtTokenUtil.generateAccessToken(user.id!!),
-                refreshToken = jwtTokenUtil.generateAccessToken(user.id!!),
-            )
-        }
-        else {
-            driver.quit()
-            throw LoginException()
-        }
-
     }
 }
