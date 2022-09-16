@@ -39,7 +39,7 @@ class AccessTokenUpdateServiceUnitTest : BaseUnitTest() {
         every { jwtTokenUtil.generateRefreshToken(any()) } returns TOKEN
         every { jwtTokenUtil.extractUserId(any()) } returns USER_ID
         every { jwtTokenUtil.isTokenExpired(any()) } returns false
-        authService = AuthService(jwtTokenUtil, userRepository, encoder,driver)
+        authService = AuthService(jwtTokenUtil, userRepository, encoder, driver)
     }
 
     @DisplayName("AccessToken 갱신 성공")
