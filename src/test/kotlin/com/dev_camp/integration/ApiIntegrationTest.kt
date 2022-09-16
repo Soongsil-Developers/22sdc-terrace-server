@@ -9,7 +9,6 @@ import com.dev_camp.util.NAME
 import com.dev_camp.util.USER_ID
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.openqa.selenium.WebDriver
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -22,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 abstract class ApiIntegrationTest {
-
 
     @Autowired
     protected lateinit var userRepository: UserRepository
@@ -44,7 +42,6 @@ abstract class ApiIntegrationTest {
         val user = User(
             id= USER_ID,
             name = NAME,
-
         )
         userRepository.save(user)
     }
@@ -56,7 +53,7 @@ abstract class ApiIntegrationTest {
 
     protected fun getUserId(): String {
         val user = userRepository.findById(USER_ID).orElseThrow { UserIdNotFoundException() }
-        return user.id ?: ""
+        return user.id ?: "null"
     }
 
     protected fun assertErrorResponse(dsl: MockMvcResultMatchersDsl, message: String) {
