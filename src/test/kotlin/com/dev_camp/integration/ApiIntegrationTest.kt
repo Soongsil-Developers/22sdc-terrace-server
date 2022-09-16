@@ -6,7 +6,7 @@ import com.dev_camp.auth.tools.JwtTokenUtil
 import com.dev_camp.user.domain.User
 import com.dev_camp.user.domain.UserRepository
 import com.dev_camp.util.NAME
-import com.dev_camp.util.STUDENT_ID
+import com.dev_camp.util.USER_ID
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,9 +40,8 @@ abstract class ApiIntegrationTest {
     @BeforeEach
     fun setUp() {
         val user = User(
-            id= STUDENT_ID,
+            id= USER_ID,
             name = NAME,
-
         )
         userRepository.save(user)
     }
@@ -53,8 +52,8 @@ abstract class ApiIntegrationTest {
     }
 
     protected fun getUserId(): String {
-        val user = userRepository.findById(STUDENT_ID).orElseThrow { UserIdNotFoundException() }
-        return user.id ?: ""
+        val user = userRepository.findById(USER_ID).orElseThrow { UserIdNotFoundException() }
+        return user.id ?: "null"
     }
 
     protected fun assertErrorResponse(dsl: MockMvcResultMatchersDsl, message: String) {

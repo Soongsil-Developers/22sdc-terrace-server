@@ -5,6 +5,7 @@ import com.dev_camp.auth.dto.AccessTokenUpdateRequestDto
 import com.dev_camp.auth.exception.AuthenticateException
 import com.dev_camp.auth.service.AuthService
 import com.dev_camp.auth.tools.JwtTokenUtil
+import com.dev_camp.config.WebDriverConfig
 import com.dev_camp.unit.BaseUnitTest
 import com.dev_camp.util.TOKEN
 import com.dev_camp.util.USER_ID
@@ -15,11 +16,17 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.openqa.selenium.WebDriver
+import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 class AccessTokenUpdateServiceUnitTest : BaseUnitTest() {
 
     private lateinit var authService: AuthService
+
+    var ctx: ApplicationContext = AnnotationConfigApplicationContext(WebDriverConfig::class.java)
+    private var driver: WebDriver = ctx.getBean("WebDriver", WebDriver::class.java)
 
     @MockkBean
     private lateinit var jwtTokenUtil: JwtTokenUtil
@@ -32,7 +39,7 @@ class AccessTokenUpdateServiceUnitTest : BaseUnitTest() {
         every { jwtTokenUtil.generateRefreshToken(any()) } returns TOKEN
         every { jwtTokenUtil.extractUserId(any()) } returns USER_ID
         every { jwtTokenUtil.isTokenExpired(any()) } returns false
-        authService = AuthService(jwtTokenUtil, userRepository, encoder)
+        authService = AuthService(jwtTokenUtil, userRepository, encoder, driver)
     }
 
     @DisplayName("AccessToken 갱신 성공")
