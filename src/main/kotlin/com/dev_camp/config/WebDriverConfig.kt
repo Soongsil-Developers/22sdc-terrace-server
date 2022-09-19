@@ -16,9 +16,13 @@ class WebDriverConfig(){
     fun webDriver(): WebDriver {
         val chromeDriverPath = "C:\\terrace_pj\\chromedriver.exe"
         System.setProperty("webdriver.chrome.driver", chromeDriverPath)
+
         val options = ChromeOptions()
-            .addArguments("disable-gpu","--window-size=1920,1200")
-            .setHeadless(true)
+            .addArguments("headless")
+            .addArguments("disable-gpu")
+            .addArguments("window-size=1920x1080")
+            .addArguments("--blink-setting=imagesEnable=false")
+            .addArguments("--disable-popup-blocking")
 
         val driver = ChromeDriver(options)
         driver.setLogLevel(Level.WARNING)
