@@ -44,11 +44,15 @@ class AuthService(
 
         try {
             driver.findElement(By.id("pwd")).submit()
-            Thread.sleep(500)
+            Thread.sleep(100)
             System.out.print(driver.currentUrl)
 
             if (driver.currentUrl.contains("https://saint.ssu.ac.kr/irj/portal")) {
-                val user = User(id = requestDto.studentId, name = "testName")
+                val userGreet = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/header/div[1]/div/span")).text
+                val idx = userGreet.indexOf("님")
+                val username = userGreet.substring(0,idx)
+                val user = User(id = requestDto.studentId, name = username)
+
                 //로그아웃 버튼 click
                 driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/header/div[1]/div/div/button[2]")).click()
                 userRepository.save(user)
@@ -58,7 +62,7 @@ class AuthService(
                     accessToken = jwtTokenUtil.generateAccessToken(user.id!!),
                     refreshToken = jwtTokenUtil.generateAccessToken(user.id!!),
                 )
-            } else throw UnhandledAlertException("login failed")
+            } else throw LoginException()
 
         } catch (e: UnhandledAlertException) {
             driver.quit()
