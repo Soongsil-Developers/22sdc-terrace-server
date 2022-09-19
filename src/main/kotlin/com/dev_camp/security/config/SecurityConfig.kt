@@ -49,7 +49,7 @@ class SecurityConfig(private val jwtTokenUtil: JwtTokenUtil, private val authent
         web.ignoring()
             .mvcMatchers(HttpMethod.POST, "/v1/auth/update-token")
             .mvcMatchers(HttpMethod.POST, "/v1/auth/login")
-            .mvcMatchers(HttpMethod.GET, "/swagger-ui/**")
+            .mvcMatchers(HttpMethod.GET, "/swagger-ui/**","swagger-resources/**","/v3/api-docs/**")
             .mvcMatchers(HttpMethod.GET, "/actuator/**")
     }
 
