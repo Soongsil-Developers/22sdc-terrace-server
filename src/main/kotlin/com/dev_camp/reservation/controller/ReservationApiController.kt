@@ -17,7 +17,7 @@ class ReservationApiController (
     @PostMapping("/{terraceId}")
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@PathVariable terraceId: Int, @LoggedInUser userDto: UserDto) : Reservation {
-        val created: Reservation = reservationService.createReservation(terraceId, userDto.id)
+        val created = reservationService.createReservation(terraceId, userDto.id)
         asyncService.waitCheckIn(created.id!!)
         return created
     }
