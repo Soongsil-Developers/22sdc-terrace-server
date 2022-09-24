@@ -15,7 +15,7 @@ class Terrace(
 
     @field:Column(nullable = false, name = "status")
     @field:Enumerated(value = EnumType.STRING)
-    val status: TerraceStatus = TerraceStatus.AVAILABLE
+    var status: TerraceStatus = TerraceStatus.AVAILABLE
 ) {
     fun toDto(): TerraceDto {
         return TerraceDto(id, floor, status)
