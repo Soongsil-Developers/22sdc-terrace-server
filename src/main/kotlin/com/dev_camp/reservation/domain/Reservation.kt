@@ -20,4 +20,7 @@ class Reservation(
     @field:ManyToOne(fetch = FetchType.LAZY)
     @field:JoinColumn(name = "user_id")
     val user: User,
+
+    @field:Column(name = "is_checked_in")
+    var isCheckedIn: Boolean
 ) : CreatedAtEntity()
