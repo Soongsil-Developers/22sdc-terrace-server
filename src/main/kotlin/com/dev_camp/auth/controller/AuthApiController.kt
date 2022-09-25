@@ -24,8 +24,9 @@ class AuthApiController(
     @PostMapping("/v1/auth/login")
     fun login(@Valid @RequestBody requestDto: LoginRequestDto): LoginResponseDto {
         val semaphore = Semaphore(4)
+        val response : LoginResponseDto
         semaphore.acquire()
-        val response = authService.login(requestDto)
+        response = authService.login(requestDto)
         semaphore.release()
         return response
     }
