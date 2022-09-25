@@ -8,6 +8,7 @@ import com.dev_camp.auth.service.AuthService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.util.concurrent.Semaphore
 import javax.validation.Valid
 
 @RestController
@@ -22,6 +23,10 @@ class AuthApiController(
 
     @PostMapping("/v1/auth/login")
     fun login(@Valid @RequestBody requestDto: LoginRequestDto): LoginResponseDto {
-        return authService.login(requestDto)
+        val semaphore = Semaphore(4)
+        semaphore.acquire()
+        val response = authService.login(requestDto)
+        semaphore.release()
+        return response
     }
 }
