@@ -12,6 +12,8 @@ import com.dev_camp.user.domain.UserRepository
 import org.openqa.selenium.By
 import org.openqa.selenium.UnhandledAlertException
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.WebDriverWait
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,6 +25,7 @@ class AuthService(
     private val encoder: BCryptPasswordEncoder,
     private val driver: WebDriver
 ) {
+    val loginUrl="https://saint.ssu.ac.kr/irj/portal"
     @Transactional(readOnly = true)
     fun updateAccessToken(dto: AccessTokenUpdateRequestDto): AccessTokenUpdateResponseDto {
         if (!jwtTokenUtil.isTokenExpired(dto.refreshToken)) {
@@ -34,29 +37,21 @@ class AuthService(
     }
     @Transactional
     fun login(requestDto: LoginRequestDto): LoginResponseDto {
+
         driver.get("https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fsaint.ssu.ac.kr%2FwebSSO%2Fsso.jsp")
-
-        driver.findElement(By.id("userid")).clear()
         driver.findElement(By.id("userid")).sendKeys(requestDto.studentId)
-
-        driver.findElement(By.id("pwd")).clear()
         driver.findElement(By.id("pwd")).sendKeys(requestDto.password)
 
         try {
             driver.findElement(By.id("pwd")).submit()
-            Thread.sleep(100)
-            System.out.print(driver.currentUrl)
+            WebDriverWait(driver, 4).until(ExpectedConditions.urlContains(loginUrl))
 
-            if (driver.currentUrl.contains("https://saint.ssu.ac.kr/irj/portal")) {
+            if (driver.currentUrl.contains(loginUrl)) {
                 val userGreet = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/header/div[1]/div/span")).text
                 val idx = userGreet.indexOf("님")
                 val username = userGreet.substring(0,idx)
                 val user = User(id = requestDto.studentId, name = username)
-
-                //로그아웃 버튼 click
-                driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/header/div[1]/div/div/button[2]")).click()
                 userRepository.save(user)
-                driver.quit()
 
                 return LoginResponseDto(
                     accessToken = jwtTokenUtil.generateAccessToken(user.id!!),
@@ -65,7 +60,6 @@ class AuthService(
             } else throw LoginException()
 
         } catch (e: UnhandledAlertException) {
-            driver.quit()
             throw LoginException()
         }
     }

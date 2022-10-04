@@ -11,7 +11,7 @@ import java.util.logging.Level
 
 @Component
 class WebDriverConfig(){
-    @Bean
+    @Bean(destroyMethod = "quit")
     @RequestScope(proxyMode = ScopedProxyMode.TARGET_CLASS)
     fun webDriver(): WebDriver {
         val chromeDriverPath = "C:\\terrace_pj\\chromedriver.exe"
@@ -23,9 +23,11 @@ class WebDriverConfig(){
             .addArguments("window-size=1920x1080")
             .addArguments("--blink-setting=imagesEnable=false")
             .addArguments("--disable-popup-blocking")
+            .addArguments("--disable-application-cache")
 
         val driver = ChromeDriver(options)
         driver.setLogLevel(Level.WARNING)
+
         return driver
     }
 }

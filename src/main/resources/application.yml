@@ -16,10 +16,18 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: "health,info"
+        include: health, info, metrics, prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 info:
   application:
