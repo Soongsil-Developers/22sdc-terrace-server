@@ -27,7 +27,7 @@ jobs:
       run: chmod +x gradlew
     
     - name: Build with Gradle
-      run: ./gradlew clean build -x ktlintCheck
+      run: ./gradlew clean build
       
     # 디렉토리 생성
     - name: Make Directory
