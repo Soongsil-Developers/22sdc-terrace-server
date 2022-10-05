@@ -7,7 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.noarg") version "1.4.31"
     id("org.springframework.boot") version "2.5.4"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+//    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
     id("application")
 }
 
@@ -23,9 +23,9 @@ buildscript {
     repositories {
         maven(url = "https://plugins.gradle.org/m2/")
     }
-    dependencies {
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:10.2.0")
-    }
+//    dependencies {
+//        classpath("org.jlleitschuh.gradle:ktlint-gradle:10.2.0")
+//    }
 }
 
 dependencies {
@@ -60,9 +60,9 @@ tasks.test {
     useJUnitPlatform()
 }
 
-configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-    disabledRules.set(setOf("no-wildcard-imports"))
-}
+//configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+//    disabledRules.set(setOf("no-wildcard-imports"))
+//}
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"

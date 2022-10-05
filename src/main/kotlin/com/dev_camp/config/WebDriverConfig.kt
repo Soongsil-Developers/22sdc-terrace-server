@@ -14,6 +14,7 @@ class WebDriverConfig(){
     @Bean(destroyMethod = "quit")
     @RequestScope(proxyMode = ScopedProxyMode.TARGET_CLASS)
     fun webDriver(): WebDriver {
+    
         val chromeDriverPath = "/usr/bin/chromedriver.exe"
         System.setProperty("webdriver.chrome.driver", chromeDriverPath)
 
