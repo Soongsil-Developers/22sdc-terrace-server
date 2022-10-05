@@ -67,8 +67,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        aws deploy create-deployment \
+      run: aws deploy create-deployment \
         --application-name soongsil_terrace_web \
         --deployment-group-name soongsil_terrace_group \ 
         --file-exists-behavior OVERWRITE \
