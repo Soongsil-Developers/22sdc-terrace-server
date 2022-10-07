@@ -22,5 +22,5 @@ class Reservation(
     val user: User,
 
     @field:Column(name = "is_checked_in")
-    var isCheckedIn: Boolean
+    var isCheckedIn: Boolean = false
 ) : CreatedAtEntity()
