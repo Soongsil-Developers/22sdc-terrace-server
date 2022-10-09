@@ -13,7 +13,7 @@ class CheckInApiController(
     private val checkInService: CheckInService
 ) {
 
-    @PostMapping("/v1/checkin/{terraceid}")
+    @PostMapping("/v1/checkin/{terraceId}")
     @ResponseStatus(HttpStatus.CREATED)
     fun createCheckIn(@PathVariable terraceId: Int, @LoggedInUser userDto: UserDto): CheckInResponseDto {
         val created = checkInService.createCheckIn(terraceId, userDto.id)
